@@ -17,10 +17,19 @@ steps:
     sudo apt-get update && sudo apt-get install terraform
   displayName: 'Bash : Install Terraform'
 
-- bash: |
-    cd Terraform
-    terraform init
-  displayName: 'Bash : Init'
+# - bash: |
+#     cd Terraform
+#     terraform init
+#   displayName: 'Bash : Init'
+
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
+  displayName: 'Terraform : Init'
+  inputs:
+    backendServiceArm: 'Azure Pass - Sponsorship (85ba23e3-1754-41e4-952c-b2d1c4e400a3)'
+    backendAzureRmResourceGroupName: 'rg-stage'
+    backendAzureRmStorageAccountName: terraformstarageaccount
+    backendAzureRmContainerName: tfcontainer
+    backendAzureRmKey: 'NdX+3ytP8CMVyeC1ILAqL4ypVtQWVxrB6MCkrDMrm4leWCwI9CVJRHu8VWD/q5gVGJWAFLINBBLe+ASt9lMsBA=='
 
 - bash: |
     ls -R
