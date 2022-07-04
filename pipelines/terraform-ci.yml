@@ -41,17 +41,11 @@ steps:
 #   displayName: 'Bash : Plan Out'
 
 - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
-  displayName: 'Terraform : plan out'
+  displayName: 'Terraform : Plan'
   inputs:
     command: plan
-    workingDirectory: Terraform
     commandOptions: '-out=''stageplan.tfplan'' -var-file=''environment/stage/stage.tfvars'''
     environmentServiceNameAzureRM: 'Azure Pass - Sponsorship (85ba23e3-1754-41e4-952c-b2d1c4e400a3)'
-    backendServiceArm: 'Azure Pass - Sponsorship (85ba23e3-1754-41e4-952c-b2d1c4e400a3)'
-    backendAzureRmResourceGroupName: 'rg-stage'
-    backendAzureRmStorageAccountName: terraformstarageaccount
-    backendAzureRmContainerName: tfcontainer
-    backendAzureRmKey: 'NdX+3ytP8CMVyeC1ILAqL4ypVtQWVxrB6MCkrDMrm4leWCwI9CVJRHu8VWD/q5gVGJWAFLINBBLe+ASt9lMsBA=='
 
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
