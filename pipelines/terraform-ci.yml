@@ -1,0 +1,58 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- bash: |
+    sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
+    curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+    sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+    sudo apt-get update && sudo apt-get install terraform
+  displayName: 'Bash : Install Terraform'
+
+# - bash: |
+#     cd Terraform
+#     terraform init
+#   displayName: 'Bash : Init'
+
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
+  displayName: 'Terraform : Init'
+  inputs:
+    backendServiceArm: 'Azure Pass - Sponsorship (85ba23e3-1754-41e4-952c-b2d1c4e400a3)'
+    backendAzureRmResourceGroupName: 'rg-stage'
+    backendAzureRmStorageAccountName: terraformstarageaccount
+    backendAzureRmContainerName: tfcontainer
+    backendAzureRmKey: 'NdX+3ytP8CMVyeC1ILAqL4ypVtQWVxrB6MCkrDMrm4leWCwI9CVJRHu8VWD/q5gVGJWAFLINBBLe+ASt9lMsBA=='
+
+- bash: |
+    ls -R
+  displayName: 'Bash : PWD'
+
+# - bash: |
+#     cd Terraform
+#     terraform plan -out='stageplan.tfplan' -var-file="environment/stage/stage.tfvars"
+#   displayName: 'Bash : Plan Out'
+
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
+  displayName: 'Terraform : Plan'
+  inputs:
+    command: plan
+    commandOptions: '-out=''stageplan.tfplan'' -var-file=''stage.tfvars'''
+    environmentServiceNameAzureRM: 'Azure Pass - Sponsorship (85ba23e3-1754-41e4-952c-b2d1c4e400a3)'
+
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+  inputs:
+    SourceFolder: Terraform
+    Contents: '**.tfplan'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
