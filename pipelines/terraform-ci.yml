@@ -44,7 +44,7 @@ steps:
   displayName: 'Terraform : Plan'
   inputs:
     command: plan
-    commandOptions: '-out=''stageplan.tfplan'' -var-file=''environment\stage\stage.tfvars'''
+    commandOptions: '-out=''stageplan.tfplan'' -var-file=''stage.tfvars'''
     environmentServiceNameAzureRM: 'Azure Pass - Sponsorship (85ba23e3-1754-41e4-952c-b2d1c4e400a3)'
 
 - task: CopyFiles@2
