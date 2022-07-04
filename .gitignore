@@ -1,0 +1,5 @@
+/.terraform/providers/
+/.terraform.lock.hcl
+/terraform.tfstate.d/
+/.terraform/environment
+/.terraform/modules/modules.json
