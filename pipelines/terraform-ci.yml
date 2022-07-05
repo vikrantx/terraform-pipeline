@@ -45,10 +45,10 @@ steps:
     ls -R
   displayName: 'Bash : PWD'
 
-# - bash: |
-#     cd Terraform
-#     terraform plan -out='stageplan.tfplan' -var-file="environment/stage/stage.tfvars"
-#   displayName: 'Bash : Plan Out'
+- bash: |
+    cd Terraform
+    terraform plan -out='stageplan.tfplan' -var-file="environment/stage/stage.tfvars"
+  displayName: 'Bash : Plan Out'
 
 - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
   displayName: 'Terraform : Plan'
