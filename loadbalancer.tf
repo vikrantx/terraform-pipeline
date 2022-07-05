@@ -8,7 +8,7 @@ resource "azurerm_lb" "main" {
     public_ip_address_id = azurerm_public_ip.tf.id
   }
    tags                = {
-    "env" = terraform.workspace
+    "env" = "stage"
   }
 }
 

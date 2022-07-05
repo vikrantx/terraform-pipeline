@@ -1,6 +1,6 @@
 location           = "eastus"
 vnet_address_space = ["10.0.0.0/24"]
-tags               = { "env" = terraform.workspace }
+tags               = { "env" = "stage" }
 
 ############### Network #################
 private_subnet_cidr  = ["10.0.0.0/27"]

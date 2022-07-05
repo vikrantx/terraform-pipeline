@@ -46,21 +46,21 @@ resource "azurerm_subnet" "tf-pulic-subnet" {
 
 #postgres flex private dns zone
 resource "azurerm_private_dns_zone" "tf-postgres" {
-  name                = "${terraform.workspace}.postgres.database.azure.com"
+  name                = "stage.postgres.database.azure.com"
   resource_group_name = module.resource_group.name
   tags                = {
-    "env" = terraform.workspace
+    "env" = "stage"
   }
 }
 
 #postgres flex server dns zone vnet link 
 resource "azurerm_private_dns_zone_virtual_network_link" "tf-postgres" {
-  name                  = "${terraform.workspace}-postgres-pvt-dns-zone-vnet-link"
+  name                  = "stage-postgres-pvt-dns-zone-vnet-link"
   private_dns_zone_name = azurerm_private_dns_zone.tf-postgres.name
   virtual_network_id    = module.vnet.id
   resource_group_name   = module.resource_group.name
   tags                = {
-    "env" = terraform.workspace
+    "env" = "stage"
   }
 }
 
@@ -72,7 +72,7 @@ resource "azurerm_public_ip" "tf" {
   resource_group_name = module.resource_group.name
   allocation_method   = "Static"
   tags                = {
-    "env" = terraform.workspace
+    "env" = "stage"
   }
 }
 
@@ -85,7 +85,7 @@ resource "azurerm_public_ip" "tf-vmss" {
   allocation_method   = "Static"
   domain_name_label   = module.resource_group.name
   tags                = {
-    "env" = terraform.workspace
+    "env" = "stage"
   }
 }
 
@@ -95,7 +95,7 @@ resource "azurerm_network_security_group" "tf-public-nsg" {
   location            = var.location
   resource_group_name = module.resource_group.name
   tags                = {
-    "env" = terraform.workspace
+    "env" = "stage"
   }
 
   security_rule {
@@ -142,7 +142,7 @@ resource "azurerm_network_security_group" "tf-private-nsg" {
   location            = var.location
   resource_group_name = module.resource_group.name
   tags                = {
-    "env" = terraform.workspace
+    "env" = "stage"
   }
 
   # security_rule {
@@ -192,7 +192,7 @@ resource "azurerm_network_interface" "tf-nic" {
   location            = var.location
   resource_group_name = module.resource_group.name
   tags                = {
-    "env" = terraform.workspace
+    "env" = "stage"
   }
 
   ip_configuration {
@@ -208,7 +208,7 @@ resource "azurerm_network_interface" "tf-nic" {
 #   location            = var.location
 #   resource_group_name = module.resource_group.name
 #   tags                = {
-#     "env" = terraform.workspace
+#     "env" = "stage"
 #   }
 
 #   ip_configuration {

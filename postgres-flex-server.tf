@@ -1,5 +1,5 @@
 resource "azurerm_postgresql_flexible_server" "main" {
-  name                   = "pg-flex-server-${terraform.workspace}"
+  name                   = "pg-flex-server-stage"
   resource_group_name    = module.resource_group.name
   location               = var.location
   version                = var.postgres_version
@@ -12,6 +12,6 @@ resource "azurerm_postgresql_flexible_server" "main" {
   sku_name               = var.postgres_server_sku
   depends_on             = [azurerm_private_dns_zone_virtual_network_link.tf-postgres]
   tags = {
-    "env" = terraform.workspace
+    "env" = "stage"
   }
 }
