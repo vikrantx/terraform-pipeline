@@ -38,7 +38,11 @@ stages:
              displayName: 'install'
              inputs:
                terraformVersion: 'latest'
-
+           - task: InfracostSetup@1
+             inputs:
+               apiKey: '9sdZ2dQnHP75MNx5BUNYDftC9mXy4Ug7'
+               version: '0.10.x'
+               enableDashboard: true
            - task: TerraformTaskV3@3
              displayName: 'init'
              inputs:
@@ -56,6 +60,13 @@ stages:
                provider: 'azurerm'
                command: 'plan'
                environmentServiceNameAzureRM: 'Azure Pass - Sponsorship (85ba23e3-1754-41e4-952c-b2d1c4e400a3)'
+
+           - task: CmdLine@2
+             displayName: 'Display cost'
+             inputs:
+               script: |
+                terraform show -json stageplan.tfplan > infracost.json
+                infracost breakdown --path infracost.json
            - task: TerraformTaskV3@3
              displayName: 'plan'
              inputs:
