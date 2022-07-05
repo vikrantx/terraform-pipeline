@@ -17,15 +17,9 @@ steps:
     sudo apt-get update && sudo apt-get install terraform
   displayName: 'Bash : Install Terraform'
 
-- task: AzureCLI@2
-  displayName: Azure CLI
-  inputs:
-    azureSubscription: 'Azure Pass - Sponsorship (85ba23e3-1754-41e4-952c-b2d1c4e400a3)'
-    scriptType: ps
-    scriptLocation: inlineScript
-    inlineScript: |
-      az --version
-      az account show
+- script: echo $(AccessToken) | az devops login
+  env:
+    AccessToken: $(System.AccessToken)
 
 # - bash: |
 #     cd Terraform
